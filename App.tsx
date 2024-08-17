@@ -107,7 +107,21 @@ function HomeScreen() {
   );
 }
 
+
+
 const styles = StyleSheet.create({
+  dotContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#007BFF',
+    marginHorizontal: 4,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

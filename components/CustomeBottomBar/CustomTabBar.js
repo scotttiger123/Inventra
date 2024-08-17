@@ -168,7 +168,7 @@ function CustomTabBar() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.tabItem} onPress={() => handleTabPress('CreateInvoice')}>
           <Icon6 name="file-invoice-dollar" size={24} color={activeTab === 'CreateInvoice' ? '#000' : '#d3d3d3'} />
-          <Text style={styles.tabText}>Invoice</Text>
+          <Text style={styles.tabText}>Sale</Text>
         </TouchableOpacity>
         <View style={styles.plusButtonContainer}>
           <TouchableOpacity style={styles.plusButton} onPress={togglePopup}>
