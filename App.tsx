@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CustomTabBar from './components/CustomeBottomBar/CustomTabBar';
 import CustomerLedger from './components/reports/CustomerLedger';
 import CreateInvoice from './components/invoice/CreateInvoice';
+import AddItem from './components/invoice/AddItemScreen';
 
 const Stack = createStackNavigator();
 const themeColor = '#000';
@@ -70,6 +71,21 @@ function App() {
                 </TouchableOpacity>
               ),
               headerTitle: 'Customer Ledger',
+              headerTitleStyle: styles.headerTitle,
+              headerStyle: styles.header,
+            })}
+          />
+          <Stack.Screen
+            name="AddItemScreen"
+            component={AddItem}
+            options={({ navigation }) => ({
+              headerShown: true,
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerLeft}>
+                  <Icon name="arrow-back" size={24} color={themeColor} />
+                </TouchableOpacity>
+              ),
+              headerTitle: 'Add Item',
               headerTitleStyle: styles.headerTitle,
               headerStyle: styles.header,
             })}
