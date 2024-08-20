@@ -37,129 +37,166 @@ const CreateInvoice = () => {
 
   return (
     <View style={styles.container}>
-      
-        {/* Invoice Details Section */}
-        <View style={styles.row}>
-          <View style={[styles.inputContainer, styles.inputContainerHalf]}>
-            <IconI name="receipt" size={20} color="#333" style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Invoice No"
-              value={invoiceNo}
-              onChangeText={setInvoiceNo}
-            />
-          </View>
-          <View style={[styles.inputContainer, styles.inputContainerHalf]}>
-            <Icon name="calendar" size={20} color="#333" style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Date"
-              value={date}
-              onChangeText={setDate}
-            />
-          </View>
+      {/* Invoice Details Section */}
+      <View style={styles.row}>
+        <View style={[styles.inputContainer, styles.inputContainerHalf]}>
+          <IconM name="file-find-outline" size={22} color="#333" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Invoice No"
+            value={invoiceNo}
+            onChangeText={setInvoiceNo}
+          />
         </View>
-
-        {/* Customer Details Section */}
-        <View style={styles.row}>
-          <View style={[styles.inputContainer, styles.customerInputContainer]}>
-            <Icon name="user" size={20} color="#333" style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Customer Name"
-              value={customerName}
-              onChangeText={setCustomerName}
-            />
-          </View>
+        <View style={[styles.inputContainer, styles.inputContainerHalf]}>
+          <Icon name="calendar" size={20} color="#333" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Date"
+            value={date}
+            onChangeText={setDate}
+          />
         </View>
+      </View>
 
-        {/* Add Items Section */}
-        <View style={styles.section}>
-          <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddItemScreen', { addItemToList })}>
-            <IconM name="plus-circle" size={72} color="#007bff" style={styles.addIcon} />
-            <Text style={styles.buttonText}>Add Item</Text>
+      {/* Customer Details Section */}
+      <View style={styles.row}>
+      <View style={[styles.inputContainer, styles.inputContainerHalf]}>
+          <TouchableOpacity style={styles.addCustomerButton} onPress={() => console.log('Customer Added')}>
+            <IconM name="account-plus-outline" size={24} color="#000" />
+          </TouchableOpacity>
+          <TextInput
+            style={styles.input}
+            placeholder="Customer Name"
+            value={customerName}
+            onChangeText={setCustomerName}
+          />
+        </View>
+      </View>
+      {/* Add Items Section */}
+      <View style={styles.section}>
+        <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddItemScreen', { addItemToList })}>
+          <IconM name="plus-circle" size={72} color="#007bff" style={styles.addIcon} />
+          <Text style={styles.buttonText}>Add Item</Text>
+        </TouchableOpacity>
+      </View>
+
+
+
+      <View style={styles.itemContainer}>
+  <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <View style={styles.itemsSection}>
+      {items.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Image
+            source={require('../images/empty_cart.png')} // Adjust the path to the image file if necessary
+            style={styles.emptyImage}
+          />
+          <Text style={styles.emptyText}>No items added</Text>
+        </View>
+      ) : (
+        <ScrollView style={styles.itemsList}>
+          {items.sort((a, b) => b.id - a.id).map((item) => {
+            const originalPrice = item.price;
+            const discountValue = item.isPercentage && item.discount > 0
+              ? (item.price * item.discount) / 100
+              : item.discount > 0
+              ? item.discount
+              : 0;
+            const discountedPrice = originalPrice - discountValue;
+
+            return (
+              <View key={item.id.toString()} style={styles.itemRow}>
+                <View style={styles.itemTextContainer}>
+                  <Text style={styles.itemName}>{item.name}</Text>
+                  <Text style={styles.itemDetailText}>
+                    {item.quantity} {item.uom} x{' '}
+                    {discountValue > 0 ? (
+                      <>
+                        <Text style={styles.originalPrice}>
+                          {originalPrice.toLocaleString()}
+                        </Text>
+                        <Text> x </Text>
+                        <Text style={styles.discountedPrice}>
+                          {discountedPrice.toLocaleString()}
+                        </Text>
+                      </>
+                    ) : (
+                      <Text style={styles.discountedPrice}>
+                        {originalPrice.toLocaleString()}
+                      </Text>
+                    )}
+                  </Text>
+                  {discountValue > 0 && (
+                    <Text style={styles.discountText}>
+                      {item.isPercentage
+                        ? `(${item.discount}% off)`
+                        : `(-${discountValue.toLocaleString()} off)`}
+                    </Text>
+                  )}
+                </View>
+                <Text style={styles.itemTotalText}>
+                  <Text style={styles.currencyText}>Rs. </Text>
+                  <Text style={styles.amountText}>
+                    {(item.quantity * discountedPrice).toLocaleString()}
+                  </Text>
+                </Text>
+              </View>
+            );
+          })}
+        </ScrollView>
+      )}
+    </View>
+  </ScrollView>
+
+
+        {/* Remarks input field and image upload button */}
+        <View style={styles.remarksContainer}>
+          <TextInput
+            style={styles.remarksInput}
+            placeholder="Enter remarks here"
+            multiline
+          />
+          <TouchableOpacity style={styles.uploadButton}>
+            <Image
+              source={{ uri: 'https://your-image-url.com/upload-icon.png' }} // Replace with your image URL
+              style={styles.uploadImage}
+            />
           </TouchableOpacity>
         </View>
+      </View>
 
-        
-        <View style={styles.itemContainer}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={styles.itemsSection}>
-            {items.length === 0 ? (
-              <View style={styles.emptyContainer}>
-                <Image
-                  source={require('../images/empty_cart.png')} // Adjust the path to the image file if necessary
-                  style={styles.emptyImage}
-                />
-                <Text style={styles.emptyText}>No items added</Text>
-              </View>
-            ) : (
-              <ScrollView style={styles.itemsList}>
-                {items.map((item) => (
-                  <View key={item.id.toString()} style={styles.itemRow}>
-                    <View style={styles.itemTextContainer}>
-                      <Text style={styles.itemName}>{item.name}</Text>
-                      <Text style={styles.itemDetailText}>
-                        {item.quantity} x {item.price.toLocaleString()}
-                      </Text>
-                    </View>
-                    <Text style={styles.itemTotalText}>
-                      {(item.quantity * item.price).toLocaleString()}
-                    </Text>
-                  </View>
-                ))}
-              </ScrollView>
-            )}
-          </View>
-          </ScrollView>
-          {/* Remarks input field and image upload button */}
-          <View style={styles.remarksContainer}>
-            <TextInput
-              style={styles.remarksInput}
-              placeholder="Enter remarks here"
-              multiline
-            />
-            <TouchableOpacity style={styles.uploadButton}>
-              <Image
-                source={{ uri: 'https://your-image-url.com/upload-icon.png' }} // Replace with your image URL
-                style={styles.uploadImage}
-              />
-            </TouchableOpacity>
-          </View>
+      {/* Summary Section */}
+      <View style={styles.summarySection}>
+        <View style={styles.summaryRow}>
+          <Text style={styles.summaryLabel}>Total</Text>
+          <Text style={styles.summaryText}>{total.toLocaleString()}</Text>
         </View>
-        
-        {/* Summary Section */}
-        <View style={styles.summarySection}>
-          <View style={styles.summaryRow}>
-            <Text style={styles.summaryLabel}>Total</Text>
-            <Text style={styles.summaryText}>{total.toLocaleString()}</Text>
-          </View>
-          <View style={styles.summaryRow}>
-            <Icon name="percent" size={20} color="#333" style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Discount"
-              value={discount}
-              keyboardType="numeric"
-              onChangeText={setDiscount}
-            />
-          </View>
-          <View style={styles.summaryRow}>
-            <Icon name="dollar" size={20} color="#333" style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Receive Amount"
-              value={discount}
-              keyboardType="numeric"
-              onChangeText={setDiscount}
-            />
-          </View>
-          <View style={styles.summaryRow}>
-            <Text style={styles.summaryLabel}>Final Amount</Text>
-            <Text style={styles.summaryText}>{(total - (parseFloat(discount) || 0)).toLocaleString()}</Text>
-          </View>
+        <View style={styles.summaryRow}>
+          <Icon name="percent" size={20} color="#333" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Discount"
+            value={discount}
+            keyboardType="numeric"
+            onChangeText={setDiscount}
+          />
         </View>
-      
+        <View style={styles.summaryRow}>
+          <Icon name="dollar" size={20} color="#333" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Receive Amount"
+            value={discount}
+            keyboardType="numeric"
+            onChangeText={setDiscount}
+          />
+        </View>
+        <View style={styles.summaryRow}>
+          <Text style={styles.summaryLabel}>Final Amount</Text>
+          <Text style={styles.summaryText}>{(total - (parseFloat(discount) || 0)).toLocaleString()}</Text>
+        </View>
+      </View>
 
       {/* Save Buttons */}
       <View style={styles.buttonContainer}>
@@ -181,6 +218,64 @@ const CreateInvoice = () => {
 };
 
 const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  input: {
+    flex: 1,
+    padding: 10,
+    fontSize: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    borderColor: 'red', // Debug border color
+    borderWidth: 1, // Debug border width
+    backgroundColor: 'transparent',
+  },
+  addCustomerButton: {
+    backgroundColor: 'transparent',
+    borderRadius: 5,
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  originalPrice: {
+    textDecorationLine: 'line-through', // Strikethrough for original price
+    color: 'gray',
+    fontSize: 12,
+  },
+  discountText: {
+    color: 'red', // Highlight discount in red
+    fontSize: 12,
+  },
+  discountedPrice: {
+    color: 'green', // Highlight final price in green
+    fontSize: 12,
+  },
+  itemTotalText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#000',
+    backgroundColor: '#e0f7fa', // Light background color for the total amount section
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    textAlign: 'center',
+  },
+  currencyText: {
+    fontSize: 12,
+    fontWeight: 'normal', // Light weight for "Rs."
+    color: '#d3d3d3', // Light color for currency text
+  },
+  
+  amountText: {
+    fontSize: 12,
+    fontWeight: 'bold', // Bold weight for the amount
+    color: '#000', // Color for the amount
+  },
+  
   container: {
     flexGrow: 1,
     padding: 12,
@@ -262,25 +357,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 12,
+    backgroundColor: '#F7F8FC', // Light background color for each item row
     borderBottomWidth: 1,
-    borderColor: '#eee',
+    borderBottomColor: '#E0E4F2', // Slightly darker, appealing border color
+    borderRadius: 8,
+    marginBottom: 10,
   },
+  
   itemTextContainer: {
     flex: 3,
   },
   itemName: {
+    
+    color: '#000',
     fontSize: 12,
     fontWeight: 'bold',
-    color: '#000',
+    textTransform: 'uppercase', // Convert text to uppercase
+    
   },
   itemDetailText: {
     fontSize: 12,
+    paddingTop:5,
     color: '#666',
   },
-  itemTotalText: {
-    fontSize: 12,
-    color: '#000',
-  },
+  
   remarksContainer: {
     flexDirection: 'row',
     alignItems: 'center',

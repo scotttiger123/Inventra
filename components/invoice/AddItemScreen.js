@@ -136,12 +136,20 @@ const AddItemScreen = ({ navigation, route }) => {
       </TouchableOpacity>
 
       {uomVisible && (
-        <FlatList
-          data={filteredUOMOptions}
-          renderItem={renderUOMOption}
-          keyExtractor={(item) => item}
-          style={styles.uomList}
-        />
+        <View style={styles.uomDropdown}>
+          <TextInput
+            style={styles.uomSearchInput}
+            placeholder="Search UOM"
+            value={searchText}
+            onChangeText={filterUOMOptions}
+          />
+          <FlatList
+            data={filteredUOMOptions}
+            renderItem={renderUOMOption}
+            keyExtractor={(item) => item}
+            style={styles.uomList}
+          />
+        </View>
       )}
 
       <View style={styles.toggleContainer}>
@@ -158,16 +166,17 @@ const AddItemScreen = ({ navigation, route }) => {
         keyboardType="numeric"
         onChangeText={setDiscount}
       />
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Icon name="save" size={16} color="#fff" />
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.saveAndNewButton} onPress={handleSaveAndNew}>
-          <Icon name="plus" size={16} color="#fff" />
-          <Text style={styles.buttonText}>Save & New</Text>
-        </TouchableOpacity>
-      </View>
+      
+      <View style={styles.footer}>
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Icon name="save" size={16} color="#fff" />
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.saveAndNewButton} onPress={handleSaveAndNew}>
+            <Icon name="plus" size={16} color="#fff" />
+            <Text style={styles.buttonText}>Save & New</Text>
+          </TouchableOpacity>
+        </View>
     </View>
   );
 };
@@ -187,19 +196,37 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     marginBottom: 20,
-    fontSize: 16,
+    fontSize: 14,
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
   inputText: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#333',
   },
-  uomList: {
+  uomDropdown: {
+    position: 'absolute',
+    top: 160, // Adjust based on your layout
+    left: 16,
+    right: 16,
+    zIndex: 10,
+    backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    marginBottom: 20,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+  },
+  uomSearchInput: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    marginBottom: 10,
+    fontSize: 14,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  uomList: {
+    maxHeight: 150,
   },
   uomOptionContainer: {
     borderBottomWidth: 1,
@@ -207,7 +234,7 @@ const styles = StyleSheet.create({
   },
   uomOption: {
     padding: 10,
-    fontSize: 16,
+    fontSize: 14,
     color: '#333',
   },
   toggleContainer: {
@@ -217,12 +244,21 @@ const styles = StyleSheet.create({
   },
   toggleLabel: {
     flex: 1,
-    fontSize: 12,
+    fontSize: 14,
   },
-  buttonContainer: {
+  
+  footer: {
     flexDirection: 'row',
     padding: 16,
     backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    position: 'absolute',
+    bottom: 10, // Adjust this value to position the footer slightly above the bottom of the screen
+    left: 0,
+    right: 0,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   saveButton: {
     backgroundColor: '#000',
@@ -252,7 +288,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginLeft: 8,
     fontSize: 14,
-  },
-});
+  },});
 
 export default AddItemScreen;
