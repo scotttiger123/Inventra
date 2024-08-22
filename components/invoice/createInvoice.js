@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     color: '#000',
-    backgroundColor: '#e0f7fa', // Light background color for the total amount section
+    backgroundColor: '#EAF1FF', // Light background color for the total amount section
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 8,
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   currencyText: {
     fontSize: 12,
     fontWeight: 'normal', // Light weight for "Rs."
-    color: '#d3d3d3', // Light color for currency text
+    color: '#9E9E9E', // Light color for currency text
   },
   
   amountText: {
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
   remarksInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#E0E4F2',
     borderRadius: 5,
     padding: 10,
     fontSize: 14, // Consistent font size

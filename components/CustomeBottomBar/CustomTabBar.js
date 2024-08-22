@@ -283,10 +283,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#F7F8FC',
     marginBottom: 5,
     borderWidth: 1, // Border width
-    borderColor: '#d3d3d3', // Light color border
+    borderColor: '#E0E4F2', // Light color border
   },
   menuText: {
     fontSize: 12,
